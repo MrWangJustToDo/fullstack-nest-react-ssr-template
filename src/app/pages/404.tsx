@@ -1,3 +1,5 @@
+import { Code } from "@chakra-ui/react";
+
 export default function Index() {
-  return <div>404 page</div>
+  return <Code>404 page</Code>
 }

@@ -7,7 +7,7 @@ export const devServerConfig = ({
 }): Configuration => ({
   hot: 'only',
   client: {
-    logging: 'error',
+    logging: 'verbose',
     progress: true,
     reconnect: true,
   },

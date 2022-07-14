@@ -131,7 +131,8 @@ const resolveGetInitialStateFunction = async ({
             }),
         ),
       );
-      return res.filter(Boolean).reduce<{
+
+      const result = res.filter(Boolean).reduce<{
         redirect?: RedirectType;
         error?: string;
         props?: Record<string, unknown>;
@@ -144,6 +145,11 @@ const resolveGetInitialStateFunction = async ({
         s.redirect = c.redirect ? c.redirect : s.redirect;
         return s;
       }, {});
+
+      return {
+        ...result,
+        props: { [generateInitialPropsKey(pathName, query)]: result.props },
+      };
     };
   } else {
     return null;
@@ -171,9 +177,9 @@ const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
 
 function preLoadWrapper(
   preLoad: GetInitialStateType,
-): (props: ComponentClass & { getInitialState?: GetInitialStateType }) => void {
+): (props: ComponentClass<any> & { getInitialState?: GetInitialStateType }) => void {
   function Wrapper(
-    Component: ComponentClass & { getInitialState?: GetInitialStateType },
+    Component: ComponentClass<any> & { getInitialState?: GetInitialStateType },
   ): void {
     Component.getInitialState = preLoad;
   }

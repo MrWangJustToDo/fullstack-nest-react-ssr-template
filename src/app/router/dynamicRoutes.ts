@@ -2,4 +2,4 @@
 /* do not editor this template */
 import type { DynamicRouteConfig } from "@app/types/router";
 
-export const dynamicRouteConfig: DynamicRouteConfig[] = [{"path":"/Foo","componentPath":"Foo"},{"path":"/","componentPath":"index"},{"path":"/*","componentPath":"404"}];
+export const dynamicRouteConfig: DynamicRouteConfig[] = [{"path":"/Bar","componentPath":"Bar"},{"path":"/Foo","componentPath":"Foo"},{"path":"/I18n","componentPath":"I18n"},{"path":"/","componentPath":"index"},{"path":"/*","componentPath":"404"}];

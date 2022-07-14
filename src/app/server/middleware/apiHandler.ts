@@ -14,6 +14,7 @@ const excludeApiMiddlewareHandler: MiddlewareFunction = async (
   nextMiddleware,
 ) => {
   const { req, next } = ctx;
+  // for more nest router, add here
   // if it is a api request, should not handler by render function
   if (req.path.startsWith('/api') || req.path.startsWith('api')) {
     next();

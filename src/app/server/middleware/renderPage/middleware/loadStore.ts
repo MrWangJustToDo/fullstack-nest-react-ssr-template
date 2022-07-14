@@ -1,4 +1,5 @@
 import { allRoutes } from '@app/router/routes';
+import { changeClientPropsSuccess } from '@app/store/reducer/client/clientProps';
 import { preLoad } from '@app/util/preLoad';
 import { RenderError } from '@app/util/renderError';
 
@@ -14,7 +15,7 @@ export const loadStore: Middleware = (next) => async (args) => {
     );
   }
 
-  const { error, redirect, page } =
+  const { error, redirect, page, props } =
     (await preLoad(
       allRoutes,
       req.path,
@@ -36,6 +37,7 @@ export const loadStore: Middleware = (next) => async (args) => {
     res.writeHead(redirect.code || 302, { location: path });
     res.end();
   } else {
+    store.dispatch(changeClientPropsSuccess(props));
     await next(args);
   }
 };

@@ -11,6 +11,5 @@ export const useGetInitialProps = (pagePath: string) => {
   const propsKey = generateInitialPropsKey(loaded?.location.pathname || "", loaded?.query || new URLSearchParams());
   const props = routerData[propsKey];
   validPropsRef.current = pagePath === loaded?.location.pathname ? props : validPropsRef.current;
-
   return validPropsRef.current;
 };

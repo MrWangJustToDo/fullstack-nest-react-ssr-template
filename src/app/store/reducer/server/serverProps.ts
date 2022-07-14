@@ -19,6 +19,7 @@ const initialState: ServerPropsType = {
   error: '',
 };
 
+// TODO should we need all the getServerSideProps and getClientSideProps for page component
 export const serverPropsAsyncAction = createAsyncThunk(
   'serverProps/asyncAction',
   async ({
