@@ -4,7 +4,7 @@ import axios from 'axios';
 import { getPublicApi } from '@app/util/env';
 
 interface ServerLangState {
-  [Key: string]: Record<string, string>;
+  [Key: string]: string;
 }
 
 interface ServerLangType {

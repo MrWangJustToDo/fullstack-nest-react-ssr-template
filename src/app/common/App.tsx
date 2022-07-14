@@ -1,4 +1,3 @@
-
 import { allRoutes } from '@app/router/routes';
 
 import { LoadingBar } from './LoadingBar';
@@ -10,14 +9,14 @@ import { WrapperRoute } from './WrapperRoute';
 
 export const App = () => {
   return (
-    <WrapperLang>
-      <WrapperLoading>
+    <WrapperLoading>
+      <WrapperLang>
         <WrapperRoute routes={allRoutes} LoadingBar={LoadingBar}>
           <WrapperErrorCatch>
             <RenderMatch />
           </WrapperErrorCatch>
         </WrapperRoute>
-      </WrapperLoading>
-    </WrapperLang>
+      </WrapperLang>
+    </WrapperLoading>
   );
 };
