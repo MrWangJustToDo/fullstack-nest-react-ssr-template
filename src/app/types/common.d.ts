@@ -1,4 +1,3 @@
-
 import type { PreLoadRouteConfig } from "./router";
 import type { RootStore } from "@app/store";
 import type { RedirectType } from "@app/util/preLoad";
@@ -16,17 +15,32 @@ export interface GetInitialStateType {
     | Promise<{
         redirect?: RedirectType;
         error?: string;
-        props?: any; // support auto inject props when data loaded
+        props?: Record<string, unknown>; // support auto inject props when data loaded
       } | void>
     | {
         redirect?: RedirectType;
         error?: string;
-        props?: any; // support auto inject props when data loaded
+        props?: Record<string, unknown>; // support auto inject props when data loaded
       }
     | void;
 }
 
-export interface PreLoadComponentType<T = any> {
+export interface GetInitialStateWithFullPropsType {
+  (props: GetInitialStateProps):
+    | Promise<{
+        redirect?: RedirectType;
+        error?: string;
+        props?: Record<string, Record<string, unknown>>; // support auto inject props when data loaded
+      } | void>
+    | {
+        redirect?: RedirectType;
+        error?: string;
+        props?: Record<string, Record<string, unknown>>; // support auto inject props when data loaded
+      }
+    | void;
+}
+
+export interface PreLoadComponentType<T = Record<string, unknown>> {
   (props: T): JSX.Element;
   getInitialState?: GetInitialStateType;
 }
@@ -45,4 +59,13 @@ export interface WrapperRouteType {
 /* LoadingBar */
 export interface LoadingBarWrapperType {
   (props: { loading?: boolean }): JSX.Element | null;
+}
+
+/* initial state */
+export interface GetServerSideProps {
+  (props: { pathName: string; params: Params<string>; query: URLSearchParams }): Promise<{
+    redirect?: RedirectType;
+    error?: string;
+    props?: Record<string, unknown>;
+  }>;
 }

@@ -5,7 +5,7 @@ import { useAppSelector } from "@app/store";
 import { generateInitialPropsKey } from "@app/util/preLoad";
 
 export const useGetInitialProps = (pagePath: string) => {
-  const validPropsRef = useRef<any>();
+  const validPropsRef = useRef<Record<string, unknown>>();
   const routerData = useAppSelector((state) => state.client.clientProps.data)
   const loaded = useLoadedLocation();
   const propsKey = generateInitialPropsKey(loaded?.location.pathname || "", loaded?.query || new URLSearchParams());

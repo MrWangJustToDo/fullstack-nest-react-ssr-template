@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface ClientPropsState {
-  [key: string]: unknown;
+  [key: string]: Record<string, unknown>;
 }
 
 interface ClientPropsType {

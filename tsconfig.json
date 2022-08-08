@@ -27,6 +27,6 @@
       "@app/*": ["src/app/*"]
     }
   },
-  "include": ["src/server"],
+  "include": ["src/server", "src/build", "test"],
   "exclude": ["dist", "node_modules", "src/app"]
 }
