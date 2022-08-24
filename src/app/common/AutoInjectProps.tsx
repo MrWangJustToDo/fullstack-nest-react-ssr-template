@@ -5,7 +5,7 @@ import { useGetInitialProps } from '@app/hooks/useGetInitialProps';
 import type { ComponentType, LazyExoticComponent } from 'react';
 
 export const AutoInjectProps = (
-  Component: LazyExoticComponent<ComponentType<Record<string, unknown>>>,
+  Component: LazyExoticComponent<ComponentType<unknown>>,
   path: string,
 ) => {
   const MemoComponent = memo(Component);

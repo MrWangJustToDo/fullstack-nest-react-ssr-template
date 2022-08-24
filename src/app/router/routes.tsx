@@ -7,7 +7,6 @@ import { dynamicRouteConfig } from './dynamicRoutes';
 
 import type { PreLoadRouteConfig } from '@app/types/router';
 
-
 const baseRouter: PreLoadRouteConfig = {
   element: <Outlet />,
 };

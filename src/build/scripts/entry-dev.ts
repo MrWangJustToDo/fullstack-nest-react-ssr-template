@@ -8,20 +8,22 @@ import { logger } from './log';
 import { startDevServer } from './startDevServer';
 import { startServerWatch } from './startServerWatch';
 
+import type { Compiler } from 'webpack';
+
 const withHydrate = async () => {
   await Promise.all([
-    freePort(process.env.DEV_PORT),
-    freePort(process.env.WDS_PORT),
+    freePort(process.env.DEV_PORT as string),
+    freePort(process.env.WDS_PORT as string),
   ]);
   const multiConfig = config(true);
   const multiCompiler = webpack(multiConfig);
   const [clientConfig] = multiConfig;
   const clientCompiler = multiCompiler.compilers.find(
     (compiler) => compiler.name === 'client',
-  );
+  ) as Compiler;
   const serverCompiler = multiCompiler.compilers.find(
     (compiler) => compiler.name === 'server',
-  );
+  ) as Compiler;
 
   startDevServer(clientCompiler, clientConfig);
 
@@ -34,12 +36,12 @@ const withHydrate = async () => {
   try {
     await Promise.all([clientCompilerPromise, serverCompilerPromise]);
   } catch (e) {
-    logger().error(e.message);
+    logger().error((e as Error).message);
   }
 };
 
 const withMiddleware = async () => {
-  await freePort(process.env.DEV_PORT);
+  await freePort(process.env.DEV_PORT as string);
   const multiConfig = config(true);
   const [, serverConfig] = multiConfig;
   const serverCompiler = webpack(serverConfig);
@@ -48,7 +50,7 @@ const withMiddleware = async () => {
   try {
     await serverCompilerPromise;
   } catch (e) {
-    logger().error(e.message);
+    logger().error((e as Error).message);
   }
 };
 

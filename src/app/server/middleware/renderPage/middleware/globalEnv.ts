@@ -1,7 +1,11 @@
+import {
+  getIsAnimateRouter,
+  getIsMiddleware,
+  getIsSSR,
+  getIsStaticGenerate,
+} from '@app/util/env';
 
-import { getIsAnimateRouter, getIsMiddleware, getIsSSR, getIsStaticGenerate } from "@app/util/env";
-
-import type { Middleware } from "../compose";
+import type { Middleware } from '../compose';
 
 export const globalEnv: Middleware = (next) => async (args) => {
   const { PUBLIC_DEV_API_HOST, PUBLIC_PROD_API_HOST } = process.env;
@@ -12,7 +16,9 @@ export const globalEnv: Middleware = (next) => async (args) => {
     isDEVELOPMENT: __DEVELOPMENT__,
     isMIDDLEWARE: getIsMiddleware(),
     isANIMATE_ROUTER: getIsAnimateRouter(),
-    PUBLIC_API_HOST: __DEVELOPMENT__ ? PUBLIC_DEV_API_HOST : PUBLIC_PROD_API_HOST,
+    PUBLIC_API_HOST: __DEVELOPMENT__
+      ? PUBLIC_DEV_API_HOST
+      : PUBLIC_PROD_API_HOST,
   };
 
   await next(args);

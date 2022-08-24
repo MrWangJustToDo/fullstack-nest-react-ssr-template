@@ -37,7 +37,7 @@ export const loadStore: Middleware = (next) => async (args) => {
     res.writeHead(redirect.code || 302, { location: path });
     res.end();
   } else {
-    store.dispatch(changeClientPropsSuccess(props));
+    props && store.dispatch(changeClientPropsSuccess(props));
     await next(args);
   }
 };

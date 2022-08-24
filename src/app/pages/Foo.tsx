@@ -4,6 +4,8 @@ import { delay } from '@app/util/delay';
 
 import type { GetInitialStateType } from '@app/types/common';
 
+// current page will not generate static page
+
 export default function Index({ foo }: { foo: string }) {
   return (
     <>

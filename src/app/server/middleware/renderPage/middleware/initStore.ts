@@ -1,7 +1,6 @@
+import { createUniversalStore } from '@app/store';
 
-import { createUniversalStore } from "@app/store";
-
-import type { Middleware } from "../compose";
+import type { Middleware } from '../compose';
 
 export const initStore: Middleware = (next) => async (args) => {
   const store = createUniversalStore();

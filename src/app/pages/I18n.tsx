@@ -28,3 +28,5 @@ export default function Index() {
     </>
   );
 }
+
+export const isStatic = true;

@@ -1,2 +1,2 @@
-export { renderCSR } from "./renderCSR";
-export { renderSSR } from "./renderSSR";
+export { renderCSR } from './renderCSR';
+export { renderSSR } from './renderSSR';

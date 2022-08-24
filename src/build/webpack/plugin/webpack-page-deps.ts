@@ -1,6 +1,6 @@
 import { sources, Compilation } from 'webpack';
 
-import type { Compiler } from 'webpack';
+import type { Compiler, StatsModule } from 'webpack';
 
 // https://github.com/artem-malko/react-ssr-template/blob/main/src/infrastructure/dependencyManager/webpack/plugin.ts
 const RawSource = sources.RawSource;
@@ -9,6 +9,8 @@ const pluginName = 'webpack-page-deps-plugin';
 // https://github.com/shellscape/webpack-manifest-plugin/blob/6a521600b0b7dd66db805bf8fb8afaa8c41290cb/src/index.ts#L48
 const hashKey = /([a-f0-9]{16,32}\.?)/gi;
 const transformExtensions = /^(gz|map)$/i;
+
+const STATIC_PAGE_EXPORT = 'isStatic';
 
 export class WebpackPageDepsPlugin {
   fileName: string;
@@ -44,6 +46,7 @@ export class WebpackPageDepsPlugin {
               locName: string;
             };
           };
+          chunkIdToModules: { [chunkId: string]: StatsModule[] };
           chunkIdToChildrenIds: { [chunkId: string]: (string | number)[] };
         }>(
           (mutableAcc, statsChunk) => {
@@ -57,9 +60,10 @@ export class WebpackPageDepsPlugin {
               const replaced = fileName.replace(/\?.*/, '');
               const split = replaced.split('.');
               const extension = split.pop();
-              const finalExtension = transformExtensions.test(extension)
-                ? `${split.pop()}.${extension}`
-                : extension;
+              const finalExtension =
+                extension && transformExtensions.test(extension)
+                  ? `${split.pop()}.${extension}`
+                  : extension;
               const name = statsChunk.names?.[0]
                 ? statsChunk.names?.[0] + '.' + finalExtension
                 : fileName;
@@ -69,8 +73,12 @@ export class WebpackPageDepsPlugin {
             mutableAcc.chunkIdToChunkName[statsChunk.id] = {
               id: statsChunk.id,
               name: files[0],
-              locName: statsChunk.origins?.[0]?.request,
+              locName: statsChunk.origins?.[0]?.request as string,
             };
+
+            if (statsChunk.modules) {
+              mutableAcc.chunkIdToModules[statsChunk.id] = statsChunk.modules;
+            }
 
             if (files[0]) {
               mutableAcc.chunkIdToFileNameMap[statsChunk.id] = files;
@@ -91,37 +99,51 @@ export class WebpackPageDepsPlugin {
             return mutableAcc;
           },
           {
+            chunkIdToModules: {},
             chunkIdToFileNameMap: {},
             chunkIdToChunkName: {},
             chunkIdToChildrenIds: {},
           },
         );
 
-        return Object.keys(reducedStats.chunkIdToChunkName).reduce(
-          (mutableAcc, chunkId) => {
-            const { name: chunkName, locName } =
-              reducedStats.chunkIdToChunkName[chunkId];
+        return Object.keys(reducedStats.chunkIdToChunkName).reduce<{
+          [p: string]: { path: string[]; static: boolean };
+        }>((mutableAcc, chunkId) => {
+          const { name: chunkName, locName } =
+            reducedStats.chunkIdToChunkName[chunkId];
 
-            // We do not collect deps for not page's chunks
-            if (!chunkName || !/page/i.test(chunkName)) {
-              return mutableAcc;
-            }
-
-            const childrenIds = reducedStats.chunkIdToChildrenIds[chunkId];
-            const files = getFiles(
-              reducedStats.chunkIdToFileNameMap,
-              reducedStats.chunkIdToChildrenIds,
-              childrenIds,
-            );
-
-            const path = locName;
-
-            mutableAcc[path] = [chunkName, ...files];
-
+          // We do not collect deps for not page's chunks
+          if (!chunkName || !/page/i.test(chunkName)) {
             return mutableAcc;
-          },
-          {},
-        );
+          }
+
+          const childrenIds = reducedStats.chunkIdToChildrenIds[chunkId];
+
+          const modules = reducedStats.chunkIdToModules[chunkId];
+
+          const files = getFiles(
+            reducedStats.chunkIdToFileNameMap,
+            reducedStats.chunkIdToChildrenIds,
+            childrenIds,
+          );
+
+          const [lastModule] = modules.slice(-1);
+
+          const lastModuleExport = lastModule?.providedExports || [];
+
+          const path = locName;
+
+          const isDynamicPage = path.includes('/:');
+
+          mutableAcc[path] = {
+            path: [chunkName, ...files],
+            static: isDynamicPage
+              ? false
+              : lastModuleExport.some((name) => name === STATIC_PAGE_EXPORT),
+          };
+
+          return mutableAcc;
+        }, {});
       })
       .then((result) => {
         const resultString = JSON.stringify(result, null, 2);
@@ -147,10 +169,14 @@ const getFiles = (
   chunkIdToFileNameMap: { [chunkId: string]: string[] },
   chunkIdToChildrenIds: { [chunkId: string]: (string | number)[] },
   childrenIds: (string | number)[],
-) => {
-  const mutableFoundFiles = [];
+): string[] => {
+  const mutableFoundFiles: string[] = [];
 
-  function innerFunc(chunkIdToFileNameMap, chunkIdToChildrenIds, childrenIds) {
+  function innerFunc(
+    chunkIdToFileNameMap: { [chunkId: string]: string[] },
+    chunkIdToChildrenIds: { [chunkId: string]: (string | number)[] },
+    childrenIds: (string | number)[],
+  ) {
     if (!childrenIds?.length) {
       return mutableFoundFiles;
     }
@@ -165,8 +191,9 @@ const getFiles = (
           chunkIdToChildrenIds[childId],
         );
       }
-      if (fileName && !mutableFoundFiles.includes(fileName)) {
-        mutableFoundFiles.push(...fileName);
+      if (fileName.length) {
+        const needAdd = fileName.filter((f) => !mutableFoundFiles.includes(f));
+        mutableFoundFiles.push(...needAdd);
       }
     });
   }

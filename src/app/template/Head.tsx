@@ -30,7 +30,7 @@ export const Head = ({
     </>
     {preLoad.filter(Boolean).map((ele) => ele)}
     {link.filter(Boolean).map((ele) => ele)}
-    <ColorModeScript initialColorMode={cookieStorage?.get()} />
+    <ColorModeScript initialColorMode={cookieStorage?.get()} type="cookie" />
     <script
       id="__preload_env__"
       type="application/json"

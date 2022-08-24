@@ -7,7 +7,7 @@ interface ServerPropsState {
   [key: string]: unknown;
 }
 
-interface ServerPropsType {
+export interface ServerPropsType {
   state: 'loading' | 'loaded' | 'initial';
   data: ServerPropsState;
   error: string | Error;

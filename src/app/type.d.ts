@@ -9,7 +9,6 @@ declare global {
   const __BUILD_TIME__: string;
 
   interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any;
     __INITIAL_PROPS_SSR__: { [key: string]: any };
     __PRELOAD_STORE_STATE__: { [key: string]: any };
     __ENV__: {

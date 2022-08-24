@@ -50,8 +50,19 @@ export const targetRender: SafeAction = async ({
     manifestStateFile('client'),
   );
 
-  const depsFileContent = await getAllStateFileContent(
-    manifestDepsFile('client'),
+  const depsFileContent = await getAllStateFileContent<
+    Record<
+      string,
+      {
+        path: string[];
+        static: boolean;
+      }
+    >,
+    Record<string, string[]>
+  >(manifestDepsFile('client'), (content) =>
+    Object.keys(content)
+      .map((key) => ({ [key]: content[key].path }))
+      .reduce((p, c) => ({ ...p, ...c }), {}),
   );
 
   const dynamicPage = getDynamicPagePath(depsFileContent, page);

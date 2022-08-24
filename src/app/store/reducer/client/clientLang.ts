@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface ClientLangState {
+export interface ClientLangState {
   value: string;
 }
 

@@ -1,11 +1,14 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import type { ErrorInfo, ReactNode, ReactElement } from "react";
+import type { ErrorInfo, ReactNode, ReactElement } from 'react';
 
-export class WrapperErrorCatch extends Component<Record<string, unknown> & { children: ReactElement }, { error: string; stack: string; hasError: boolean }> {
+export class WrapperErrorCatch extends Component<
+  Record<string, unknown> & { children: ReactElement },
+  { error: string; stack: string; hasError: boolean }
+> {
   state = {
-    stack: "",
-    error: "",
+    stack: '',
+    error: '',
     hasError: false,
   };
 
@@ -24,7 +27,9 @@ export class WrapperErrorCatch extends Component<Record<string, unknown> & { chi
     if (this.state.hasError)
       return (
         <pre>
-          <p style={{ color: "red", whiteSpace: "pre-wrap" }}>{this.state.error}</p>
+          <p style={{ color: 'red', whiteSpace: 'pre-wrap' }}>
+            {this.state.error}
+          </p>
           {this.state.stack}
         </pre>
       );

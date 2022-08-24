@@ -7,7 +7,7 @@ interface ServerLangState {
   [Key: string]: string;
 }
 
-interface ServerLangType {
+export interface ServerLangType {
   state: 'loading' | 'loaded' | 'initial';
   data: { [key: string]: ServerLangState };
   error: string | Error;

@@ -6,7 +6,7 @@ interface ClientPropsState {
   [key: string]: Record<string, unknown>;
 }
 
-interface ClientPropsType {
+export interface ClientPropsType {
   state: 'loading' | 'loaded' | 'initial';
   data: ClientPropsState;
   error: string | Error;

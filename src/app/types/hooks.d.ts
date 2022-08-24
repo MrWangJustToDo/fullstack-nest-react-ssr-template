@@ -14,7 +14,3 @@ export interface UsePreLoadType {
     };
   };
 }
-
-export interface UseHydrate {
-  (props: { routes: PreLoadRouteConfig[]; pathName: string }): void;
-}

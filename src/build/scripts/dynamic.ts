@@ -26,7 +26,7 @@ export class DynamicRouter {
               files.map((file) => {
                 if (file.isFile() && /.[tj]sx?$/.test(file.name)) {
                   const [, fileName] = Array.from(
-                    /(.*).[tj]sx?$/.exec(file.name),
+                    /(.*).[tj]sx?$/.exec(file.name) || [],
                   );
                   const config = { path: '', componentPath: '' };
                   if (DYNAMIC_PATH_REG.test(fileName)) {
@@ -35,7 +35,7 @@ export class DynamicRouter {
                       // 确保同一级只会有一个
                       dynamicPath++;
                       const [, params] = Array.from(
-                        DYNAMIC_PATH_REG.exec(fileName),
+                        DYNAMIC_PATH_REG.exec(fileName) || [],
                       );
                       config.path = `${prePath}:${params}`;
                     } else {
