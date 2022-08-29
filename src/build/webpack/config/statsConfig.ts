@@ -1,6 +1,5 @@
-import { Configuration } from 'webpack';
-
 import type { GenerateActionProps } from './type';
+import type { Configuration } from 'webpack';
 
 export const statsConfig = ({
   env,

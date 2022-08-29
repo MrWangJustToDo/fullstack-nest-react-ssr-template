@@ -19,11 +19,18 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'babel.config.js', 'dist', 'dev'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    'babel.config.js',
+    'dist',
+    'dev',
+    'node_modules',
+  ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
 
     // import

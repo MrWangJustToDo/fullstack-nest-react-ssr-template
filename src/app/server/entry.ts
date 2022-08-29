@@ -13,7 +13,10 @@ import type { Express } from 'express';
 
 let handlerRender = handler;
 
-export const setUpApp = async (app: INestApplication) => {
+export const setUpApp = async (
+  app: INestApplication,
+  startCallback?: (cb: () => Promise<void>) => void,
+) => {
   const expressApp = app.getHttpAdapter() as unknown as Express;
 
   expressApp.use(express.static(`${process.cwd()}/static`));
@@ -36,12 +39,11 @@ export const setUpApp = async (app: INestApplication) => {
     module.hot.dispose(() => app.close());
   }
 
-  if (getIsStaticGenerate()) {
-    setTimeout(() => {
+  if (startCallback && getIsStaticGenerate()) {
+    startCallback(async () => {
       serverLog(`start static page generate, base on current router`, 'info');
-      generateStaticPage().then(() => {
-        process.exit(0);
-      });
-    }, 1000);
+      await generateStaticPage();
+      process.exit(0);
+    });
   }
 };

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { createReadStream, ReadStream } from 'fs';
+import { createReadStream } from 'fs';
 import { resolve } from 'path';
+
+import type { ReadStream } from 'fs';
 
 @Injectable()
 export class LangService {

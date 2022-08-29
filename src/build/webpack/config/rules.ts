@@ -21,7 +21,6 @@ const cssRules = ({
   exclude: /\.module\.s?css$/,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const jsRulesWithSWC = (): Configuration['module']['rules'][0] => ({
   test: /\.[jt]sx?$/,
   exclude: /node_modules/,
@@ -30,7 +29,6 @@ const jsRulesWithSWC = (): Configuration['module']['rules'][0] => ({
   },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const jsRules = ({
   env,
   isDEV,
@@ -99,10 +97,11 @@ const resourceRules = ({
   },
 });
 
+const isUSE_SWC = process.env.SWC && JSON.parse(process.env.SWC);
+
 export const rulesConfig = ({ env, isDEV }: GenerateActionProps) => [
   cssRules({ env, isDEV }),
-  jsRulesWithSWC(),
-  // jsRules({ env, isDEV }),
+  isUSE_SWC ? jsRulesWithSWC() : jsRules({ env, isDEV }),
   cssModuleRules({ env, isDEV }),
   resourceRules({ env, isDEV }),
 ];

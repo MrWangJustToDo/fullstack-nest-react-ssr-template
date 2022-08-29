@@ -6,7 +6,6 @@ import type {
   GetInitialStateType,
   PreLoadStateType,
   AllPreLoadStateType,
-  PreLoadComponentType,
 } from '@app/types/common';
 import type { PreLoadRouteConfig } from '@app/types/router';
 import type { ComponentClass } from 'react';
@@ -105,13 +104,6 @@ const resolvePreLoadStateFunction = async ({
       preLoadStateArray.push(component.getInitialState);
     if (component.default && component.default.getInitialState)
       preLoadStateArray.push(component.default.getInitialState);
-  }
-  // for Component
-  if (route.element) {
-    const typedElement = route.element as unknown as PreLoadComponentType;
-    if (typeof typedElement?.getInitialState === 'function') {
-      preLoadStateArray.push(typedElement.getInitialState);
-    }
   }
 
   if (preLoadStateArray.length) {
