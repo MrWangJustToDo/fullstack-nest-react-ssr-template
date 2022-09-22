@@ -1,67 +1,60 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: 'tsconfig.json',
-    tsconfigRootDir: __dirname,
-    sourceType: 'module',
-  },
-  plugins: ['@typescript-eslint/eslint-plugin', 'prettier', 'import'],
-  extends: [
-    'eslint:recommended',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'prettier',
-  ],
   root: true,
   env: {
     node: true,
-    jest: true,
   },
-  ignorePatterns: [
-    '.eslintrc.js',
-    'babel.config.js',
-    'dist',
-    'dev',
-    'node_modules',
-  ],
+  parser: "@typescript-eslint/parser",
+  ignorePatterns: ["node_modules/*", "**/*.js", "dist/*", "dev/*", "coverage/*", "!.prettierrc"],
+  plugins: ["@typescript-eslint", "prettier", "import"],
+  extends: ["eslint:recommended", "plugin:import/recommended", "plugin:import/typescript", "plugin:@typescript-eslint/recommended", "prettier"],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/consistent-type-imports': 'error',
-    '@typescript-eslint/no-explicit-any': 'off',
+    // General
+    // "no-console": "warn",
 
-    // import
-    'import/order': [
-      'error',
+    "max-lines": ["error", { max: 400, skipBlankLines: true }],
+
+    "import/first": "error",
+
+    "import/newline-after-import": "error",
+
+    "import/no-duplicates": "error",
+
+    // Why would you want unused vars?
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+
+    // I suggest this setting for requiring return types on functions only where useful
+    "@typescript-eslint/explicit-function-return-type": [
+      "off",
       {
-        groups: [
-          ['builtin', 'external'],
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'type',
-        ],
-        'newlines-between': 'always',
-        alphabetize: { order: 'asc', caseInsensitive: true },
+        allowExpressions: true,
+        allowConciseArrowFunctionExpressionsStartingWithVoid: true,
       },
     ],
-    'import/newline-after-import': ['error', { count: 1 }],
-    'import/no-useless-path-segments': [
-      'error',
+
+    "@typescript-eslint/consistent-type-imports": "error",
+
+    // import
+    "import/order": [
+      "error",
+      {
+        groups: [["builtin", "external"], "internal", "parent", "sibling", "index", "type"],
+        "newlines-between": "always",
+        alphabetize: { order: "asc", caseInsensitive: true },
+      },
+    ],
+    "import/newline-after-import": ["error", { count: 1 }],
+    "import/no-useless-path-segments": [
+      "error",
       {
         noUselessIndex: true,
       },
     ],
   },
   settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
     },
-    'import/resolver': {
+    "import/resolver": {
       typescript: {
         alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
 

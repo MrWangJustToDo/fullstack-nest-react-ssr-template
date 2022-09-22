@@ -11,25 +11,29 @@ current project have three part of logic
 ## use
 
 1. install
+
 ```shell
 pnpm install
 ```
 
 2. for dev
+
 ```shell
 pnpm run start:dev
 ```
 
 3. for build
+
 ```shell
 pnpm run build
 ```
 
 4. for prod
+
 ```shell
 pnpm run start:prod
 ```
 
 you can visit the .env file, ssr is support by default, or you can just use csr by set en variable.
 
-more about this project, you can see the source code of just ask me for help ^_^ ! 
+more about this project, you can see the source code of just ask me for help ^\_^ !

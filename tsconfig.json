@@ -1,32 +1,27 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "declaration": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
+    "strictNullChecks": true,
+    "types": ["node", "jest"],
     "paths": {
-      "@server": ["src/server"],
-      "@server/*": ["src/server/*"],
-      "@build": ["src/build"],
-      "@build/*": ["src/build/*"],
-      "@app": ["src/app"],
-      "@app/*": ["src/app/*"]
-    }
+      "@server": ["./app/src/ui/server"],
+      "@server/*": ["./app/src/ui/server/*"],
+      "@client": ["./app/src/ui/client"],
+      "@client/*": ["./app/src/ui/client/*"],
+      "@shared": ["./app/src/ui/shared"],
+      "@shared/*": ["./app/src/ui/shared/*"]
+    },
+    "incremental": true
   },
-  "include": ["src/server", "src/build", "test", "global.d.ts"],
-  "exclude": ["dist", "node_modules", "src/app"]
+  "exclude": ["dist", "dev", "node_modules"]
 }
