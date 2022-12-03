@@ -4,7 +4,7 @@ module.exports = {
     node: true,
   },
   parser: "@typescript-eslint/parser",
-  ignorePatterns: ["node_modules/*", "**/*.js", "dist/*", "dev/*", "coverage/*", "!.prettierrc"],
+  ignorePatterns: ["node_modules/*", "**/*.js", "dist/*", "dev/*", "coverage/*", "!.prettierrc", "vite.config.ts", "vite.config.node.ts"],
   plugins: ["@typescript-eslint", "prettier", "import"],
   extends: ["eslint:recommended", "plugin:import/recommended", "plugin:import/typescript", "plugin:@typescript-eslint/recommended", "prettier"],
   rules: {

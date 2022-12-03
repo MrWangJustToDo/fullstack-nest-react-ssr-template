@@ -21,7 +21,7 @@ export const createUniversalStore = (props: CreateStoreProps = {}) => {
     reducer,
   });
 
-  if (__DEVELOPMENT__ && module.hot) {
+  if (__DEVELOPMENT__ && !__VITE__ && module.hot) {
     module.hot.accept("./reducer", () => store.replaceReducer(reducer));
   }
 

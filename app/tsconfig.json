@@ -23,5 +23,5 @@
     }
   },
   "include": ["src/build", "src/server", "test", "global.d.ts"],
-  "exclude": ["src/ui", "node_modules", "dist", "dev"]
+  "exclude": ["src/ui", "node_modules", "dist", "dev", "vite.config.ts", "vite.config.node.ts"]
 }

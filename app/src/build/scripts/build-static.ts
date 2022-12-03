@@ -6,6 +6,10 @@ import { start } from "./entry-prod";
 dotenv.config();
 
 const generate = async () => {
+  if (process.env.FORMWORK !== "webpack") {
+    throw new Error("for now the static generate only work for webpack formwork!");
+  }
+
   // build prod code first
   await start();
 

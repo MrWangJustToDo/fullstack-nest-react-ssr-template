@@ -19,6 +19,8 @@ export const setupApp = async (app: Express, startCallback?: (cb: () => Promise<
 
   expressApp.use(express.static(`${process.cwd()}/dist`));
 
+  expressApp.use(express.static(`${process.cwd()}/dist/ui/client`))
+
   page(expressApp);
 
   await develop(expressApp);
@@ -27,7 +29,7 @@ export const setupApp = async (app: Express, startCallback?: (cb: () => Promise<
     handlerRender()(req, res, next);
   });
 
-  if (__DEVELOPMENT__ && module.hot) {
+  if (__DEVELOPMENT__ && process.env.FORMWORK === "webpack" && module.hot) {
     module.hot.accept("./app.ts", () => {
       serverLog("app update", "info");
       handlerRender = generateHandler;

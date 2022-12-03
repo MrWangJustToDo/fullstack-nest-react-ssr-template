@@ -14,11 +14,11 @@ export const startServerWatch = (serverCompiler: Compiler) => {
       }
 
       if (stats?.hasErrors()) {
-        logger().error(stats.toJson().errors);
+        logger().error(stats.toJson().errors.map((warn) => ({ message: warn.message, moduleId: warn.moduleId, moduleName: warn.moduleName, loc: warn.loc })));
       }
 
       if (stats?.hasWarnings()) {
-        logger().warn(stats.toJson().warnings);
+        logger().warn(stats.toJson().warnings.map((warn) => ({ message: warn.message, moduleId: warn.moduleId, moduleName: warn.moduleName, loc: warn.loc })));
       }
     }
   );
