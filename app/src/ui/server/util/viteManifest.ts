@@ -18,18 +18,53 @@ const getAllStateFileContent = __DEVELOPMENT__
   : memoize(_getAllStateFileContent, (path, normalize) => `${path}/${(normalize || "empty").toString()}`);
 
 const mainStylesPath = (content: Record<string, any>): string[] => {
-  const key = Object.keys(content).find((key) => content[key].isEntry);
-  return content[key]?.["css"] || [];
+  const keys = Object.keys(content).filter((key) => content[key].isEntry);
+  return keys
+    .map((key) => content[key]?.["css"] as string[])
+    .reduce((p, c) => {
+      if (c) {
+        return [...p, ...c];
+      } else {
+        return p;
+      }
+    }, []);
 };
 
 const mainScriptsPath = (content: Record<string, any>): { path: string }[] => {
-  const key = Object.keys(content).find((key) => content[key].isEntry);
-  const paths = [];
-  if (content[key]) {
-    paths.push(...content[key]["imports"].map((key) => content[key]["file"]));
-    paths.push(content[key]["file"]);
-  }
-  return paths.map((path) => ({ type: "module", path }));
+  const keys = Object.keys(content).filter((key) => content[key].isEntry);
+  const paths: Array<{ path: string; [p: string]: any }> = [];
+  const legacyPaths: string[] = [];
+  const modulePaths: string[] = [];
+  keys.forEach((key) => {
+    if (content[key]) {
+      // legacy entry
+      if (key.includes("legacy")) {
+        legacyPaths.push(key);
+      } else {
+        modulePaths.push(key);
+      }
+    }
+  });
+  // import vendor first
+  // legacyPaths.sort((key) => (key.includes("vendor.") ? -1 : 0));
+  // modulePaths.sort((key) => (key.includes("vendor.") ? -1 : 0));
+  // import polyfills first
+  legacyPaths.sort((key) => (key.includes("vite/legacy-polyfills") ? -1 : 0));
+  modulePaths.forEach((key) => {
+    paths.push(...content[key]["imports"].map((key) => ({ path: content[key]["file"], type: "module", defer: true })));
+    paths.push({ path: content[key]["file"], type: "module", defer: true });
+  });
+  legacyPaths.forEach((key) => {
+    paths.push(
+      ...(content[key]?.["imports"] || []).map((key) => ({
+        path: content[key]["file"],
+        noModule: true,
+        defer: true,
+      }))
+    );
+    paths.push({ path: content[key]["file"], noModule: true, defer: true });
+  });
+  return paths;
 };
 
 export { manifestStateFile, getAllStateFileContent, mainStylesPath, mainScriptsPath };
