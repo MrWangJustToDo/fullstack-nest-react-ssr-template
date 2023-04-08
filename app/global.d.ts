@@ -6,7 +6,9 @@ declare global {
       DEV_PORT: string;
       WDS_PORT: string;
       PROD_PORT: string;
+      FRAMEWORK: "webpack" | "vite";
       SWC: string;
+      DEV_CHECK: string;
       ESBUILD: string;
       SSR: string;
       CSR: string;

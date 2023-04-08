@@ -43,10 +43,10 @@ export default defineConfig(() => {
             if (id.includes("node_modules")) {
               // there are some bug for bundle ....
               if (id.includes("core-js")) return "vendor-core-js";
-              // if (id.includes("@chakra-ui")) return "vendor-ui";
+              if (id.includes("@chakra-ui")) return "vendor-ui";
               if (id.includes("@babel")) return "vendor-babel";
-              // if (id.includes("@emotion")) return "vendor-ui";
-              // if (id.includes("react")) return "vendor-react";
+              if (id.includes("@emotion")) return "vendor-ui";
+              if (id.includes("react")) return "vendor-react";
               if (id.includes("lodash")) return "vendor-lodash";
               return "vendor";
             }

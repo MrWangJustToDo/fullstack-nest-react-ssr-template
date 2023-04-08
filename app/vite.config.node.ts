@@ -21,10 +21,6 @@ export default defineConfig(() => {
         },
       }),
     ],
-    server: {
-      middlewareMode: true,
-    },
-    appType: "custom",
     resolve: {
       alias: {
         "@build": resolve(process.cwd(), "build"),

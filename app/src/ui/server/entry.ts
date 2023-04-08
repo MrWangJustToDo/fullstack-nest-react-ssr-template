@@ -29,7 +29,7 @@ export const setupApp = async (app: Express, startCallback?: (cb: () => Promise<
     handlerRender()(req, res, next);
   });
 
-  if (__DEVELOPMENT__ && process.env.FORMWORK === "webpack" && module.hot) {
+  if (__DEVELOPMENT__ && process.env.FRAMEWORK === "webpack" && module.hot) {
     module.hot.accept("./app.ts", () => {
       serverLog("app update", "info");
       handlerRender = generateHandler;

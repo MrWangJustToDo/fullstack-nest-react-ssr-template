@@ -31,9 +31,10 @@ declare global {
       DEV_PORT: string;
       WDS_PORT: string;
       PROD_PORT: string;
-      FORMWORK: "webpack" | "vite";
+      FRAMEWORK: "webpack" | "vite";
       SWC: string;
       ESBUILD: string;
+      DEV_CHECK: string;
       SSR: string;
       CSR: string;
       STATIC_GENERATE: "true" | "false";
