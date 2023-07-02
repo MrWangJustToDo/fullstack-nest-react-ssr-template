@@ -2,11 +2,11 @@
 
 ## all write by typescript
 
-current project have three part of logic
+a new version of template has coming, for now, the project have `backend`、`frontend`、`packages` three part of directories.
 
-1. `src/app`, the frontend app, just like `Next.js`, base on the [react-ssr-template](https://github.com/MrWangJustToDo/react-ssr-setup), also support `dev-server`/`middleware` develop, hot reload, dynamic page router and so on
-2. `src/build`, the build script witch use for frontend app, help to build `dev/prod` frontend app
-3. `src/server`, the backend server, use `NestJs` so you can do what ever you want.
+1. `backend`, a pure `NestJS` app, you can write all the `backend` code on this directory
+2. `frontend`, a ssr template which from [`react-ssr-template`](https://github.com/MrWangJustToDo/react-ssr-setup)
+3. `packages`, a directory can put all of the shared module
 
 ## use
 
@@ -16,22 +16,29 @@ current project have three part of logic
 pnpm install
 ```
 
+2. prepare
+```shell
+pnpm run build:packages
+```
+
 2. for dev
 
 ```shell
-pnpm run start:dev
+pnpm run dev:backend;
+pnpm run dev:frontend;
 ```
 
 3. for build
 
 ```shell
-pnpm run build
+pnpm run build:backend
+pnpm run build:frontend / pnpm run build:frontend_static
 ```
 
 4. for prod
 
 ```shell
-pnpm run start:prod
+pnpm run start:frontend
 ```
 
 you can visit the .env file, ssr is support by default, or you can just use csr by set en variable.
