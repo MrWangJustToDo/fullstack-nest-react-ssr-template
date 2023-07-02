@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ["../../.eslintrc.js"],
+  extends: [require.resolve("project-tool/baseLint")],
 };

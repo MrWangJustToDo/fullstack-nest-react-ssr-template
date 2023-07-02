@@ -15,12 +15,12 @@
     "strictNullChecks": true,
     "types": ["node", "jest"],
     "paths": {
-      "@server": ["./app/src/ui/server"],
-      "@server/*": ["./app/src/ui/server/*"],
-      "@client": ["./app/src/ui/client"],
-      "@client/*": ["./app/src/ui/client/*"],
-      "@shared": ["./app/src/ui/shared"],
-      "@shared/*": ["./app/src/ui/shared/*"]
+      "@server": ["./frontend/src/server"],
+      "@server/*": ["./frontend/src/server/*"],
+      "@client": ["./frontend/src/client"],
+      "@client/*": ["./frontend/src/client/*"],
+      "@shared": ["./frontend/src/shared"],
+      "@shared/*": ["./frontend/src/shared/*"]
     },
     "incremental": true
   },

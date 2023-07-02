@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["plugin:react/recommended", "plugin:react/jsx-runtime", "plugin:react-hooks/recommended", "../../.eslintrc.js"],
+  extends: [require.resolve("project-tool/baseLint"), require.resolve("project-tool/reactLint")],
   settings: {
     react: {
       version: "detect", // React version. "detect" automatically picks the version you have installed.
