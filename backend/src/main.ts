@@ -8,7 +8,7 @@ export async function bootstrap(injectMiddleware?: (app: INestApplication) => Pr
 
   const { port, cb } = (await injectMiddleware?.(app)) || {};
 
-  console.log(port);
-
   await app.listen(port || 3000, cb);
 }
+
+// bootstrap();

@@ -17,12 +17,12 @@ let handlerRender = generateHandler;
 dotenv.config();
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const backend = require('@fullstack-nest-react-ssr/backend');
+const backend = require("@fullstack-nest-react-ssr/backend");
 
 const { bootstrap } = backend;
 
 const startApp = async () => {
-  bootstrap(async (nestApp) => {
+  const injectNestApp = async (nestApp) => {
     const app = nestApp.getHttpAdapter() as unknown as Express;
 
     app.use(express.static(`${process.cwd()}/public`));
@@ -72,7 +72,9 @@ const startApp = async () => {
         },
       };
     }
-  });
+  };
+
+  await bootstrap(injectNestApp);
 };
 
 startApp();
